@@ -1,0 +1,8 @@
+{
+    "tags": [ "config", "tensorrt" ],
+
+    "number_of_stream": "2",
+    "strategy_options": ["PAGED_MEMORY", "PINNED_MEMORY", "MANAGED_MEMORY"],
+    "input_memory_management_strategy": "PINNED_MEMORY",
+    "ouput_memory_management_strategy": "PINNED_MEMORY"
+}

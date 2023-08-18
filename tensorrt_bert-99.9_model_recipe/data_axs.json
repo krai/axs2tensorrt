@@ -1,0 +1,68 @@
+{
+    "_parent_entries": [ [ "^", "byname", "shell" ] ],
+    "_producer_rules": [
+        [ ["kilt_ready", "device=tensorrt", "model_name=bert-99.9"], [["run"]], {} ]
+    ],
+    "model_name": "bert-99.9",
+    "loadgen_scenario": "none",
+    "engine_source": "none",
+
+    "input_model_path": [ "^", "execute", [[
+        [ "byquery", "quant_ready,onnx_model,packed,model_name=bert_large" ],
+        [ "get_path" ]
+    ]] ],
+
+    "tensorrt_model_path": "none",
+    "model_file_name_legacy": "bert_model_variable_seq_length.engine",
+    "tensorrt_scenario_config_query": [ "config", "tensorrt_scenario_parameters" ],
+    "tensorrt_scenario_config_entry": [ "^", "byquery", [[ "^^", "get", "tensorrt_scenario_config_query" ]], {}, [ "tensorrt_scenario_config_query" ]],
+    "model_file_name": [ "^^", "dig", [[ "^^", "substitute", [[
+        "tensorrt_scenario_config_entry", "#{loadgen_scenario}#", "#{model_name}#", "#{engine_source}#", "model_file_name"
+    ]] ]] ],
+    "weight_data_types": [ "^^", "dig", [[ "^^", "substitute", [[
+        "tensorrt_scenario_config_entry", "#{model_name}#", "weight_data_types"
+    ]] ]] ],
+    "url": [ "^^", "dig", [[ "^^", "substitute", [[
+        "tensorrt_scenario_config_entry", "#{model_name}#", "url"
+    ]] ]] ],
+
+    "return_this_entry": [ "^^", "execute", [[
+        [ "get", "__record_entry__" ],
+        [ "set_path", "tensorrt_bert_model" ],
+        [ "attach", [ "^", "work_collection" ] ],
+        [ "plant", [ "^^", "substitute", [[
+            "tags", [ "kilt_ready" ],
+            "device", "#{device}#",
+            "model_name", "#{model_name}#",
+            "weight_transformations_legacy", "TF -> ONNX -> TensorRT",
+            "input_layers_tms", "['input_ids','attention_mask']",
+            "file_name", "#{model_file_name}#",
+            "original_model_path", "#{tensorrt_model_path}#",
+            "retrained", false,
+            "input_data_types", "int32", 
+            "weight_data_types", "#{weight_data_types}#",
+            "weight_transformations", "ONNX -> Nvidia engine (https://github.com/mlcommons/inference_results_v3.0/tree/main/closed/NVIDIA)",
+            "url", "#{url}#"
+        ]]]],
+        [ "save" ]
+    ]] ],
+
+    "output_model_path": [ "^^", "execute", [[
+        [ "get", "return_this_entry" ],
+        [ "get_path" ]
+    ]] ],
+
+    "sut_name": ["^", "func", "socket.gethostname" ],
+    "cuda_lib_path_query": [ "config", "cuda_paths" ],
+    "cuda_lib_path_entry": [ "^", "byquery", [[ "^^", "get", "cuda_lib_path_query" ]], {}, [ "cuda_lib_path_query" ]],
+    "cuda_libs_path": [ "^^", "dig", [[ "^^", "substitute", [[ "cuda_lib_path_entry", "#{sut_name}#", "libs" ]] ]] ],
+
+    "env": {
+        "LD_LIBRARY_PATH": [ "^^", "substitute", "#{cuda_libs_path}#" ]
+    },
+
+    "shell_cmd_orig": [ "^^", "generate_me_the_command" ],
+
+    "shell_cmd_with_subs": "cp #{tensorrt_model_path}# #{output_model_path}#",
+    "shell_cmd": [ "^^", "substitute", ["^^", "get", "shell_cmd_with_subs" ]]
+}

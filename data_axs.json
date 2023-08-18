@@ -1,0 +1,16 @@
+{
+    "repo_name": "axs2tensorrt",
+    "tags": [
+        "git_repo",
+        "collection"
+    ],
+    "submodules": false,
+    "contained_entries": {
+        "tensorrt_bert-99_model_recipe": "tensorrt_bert-99_model_recipe",
+        "tensorrt_bert-99.9_model_recipe": "tensorrt_bert-99.9_model_recipe",
+        "tensorrt_retinanet_model_recipe": "tensorrt_retinanet_model_recipe",
+        "cuda_paths": "cuda_paths",
+        "tensorrt_config": "tensorrt_config",
+        "tensorrt_scenario_parameters": "tensorrt_scenario_parameters"
+    }
+}

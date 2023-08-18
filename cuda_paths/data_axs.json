@@ -1,0 +1,21 @@
+{
+    "tags": [ "config", "cuda_paths" ],
+
+    "orin":
+    {
+        "headers": "/usr/local/cuda/include",
+        "libs": "/usr/local/cuda/lib64"
+    },
+
+    "chai":
+    {
+        "headers": "/usr/local/cuda/include",
+        "libs": "/usr/local/cuda/lib64"        
+    },
+
+    "7920t-kilt-tensorrt":
+    {
+        "headers": "/usr/local/cuda/include",
+        "libs": "/usr/local/cuda/lib64"        
+    }
+}

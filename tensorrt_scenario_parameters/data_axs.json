@@ -1,0 +1,137 @@
+{
+    "tags": [ "config", "tensorrt_scenario_parameters" ],
+
+    "Offline":
+    {
+        "kilt_batch_size": 10833,
+        "tensorrt_batch_size": 256,
+        "bert-99":
+        {
+            "nvidia":
+            {
+                "model_file_name": "bert-Offline-gpu-int8_S_384_B_256_P_1_vs.custom_k_99_MaxP.plan",
+                "kilt_input_format": "INT32,256,384:INT32,256,384:INT32,1,257:INT32,1,384",
+                "kilt_output_format": "HALF,2,256,384",
+                "loadgen_target_qps": 1
+            },
+            "trtexec":
+            {
+                "model_file_name": "",
+                "loadgen_target_qps": 1
+            }
+        },
+        "bert-99.9":
+        {
+            "nvidia":
+            {
+                "model_file_name": "bert-Offline-gpu-fp16_S_384_B_256_P_1_vs.custom_k_99_9_MaxP.plan",
+                "kilt_input_format": "INT32,256,384:INT32,256,384:INT32,1,257:INT32,1,384",
+                "kilt_output_format": "HALF,2,256,384",
+                "loadgen_target_qps": 1
+            },
+            "trtexec":
+            {
+                "model_file_name": "bert_large_v1_1.plan",
+                "kilt_input_format": "INT32,256,384:INT32,256,384:INT32,256,384",
+                "kilt_output_format": "FLOAT32,256,384:FLOAT32,256,384",
+                "loadgen_target_qps": 1
+            }
+        },
+        "retinanet":
+        {
+            "nvidia":
+            {
+                "model_file_name": "retinanet-Offline-gpu-b1-int8.lwis_k_99_MaxP.plan",
+                "kilt_input_format": "INT8,1,3,800,800",
+                "kilt_output_format": "FLOAT32,1,1,1,7001",
+                "loadgen_target_qps": 1
+            }
+        },
+
+        "AccuracyOnly":
+        {
+            "loadgen_count_override_min": 0,
+            "loadgen_count_override_max": 0
+        },
+        "PerformanceOnly":
+        {
+            "loadgen_count_override_min": 0,
+            "loadgen_count_override_max": 0
+        }
+    },
+
+    "Server":
+    {
+        "kilt_batch_size": 256,
+        "tensorrt_batch_size": 8,
+        "bert-99":
+        {
+            "nvidia":
+            {
+                "model_file_name": "bert-Server-gpu-int8_S_384_B_256_P_1_vs.custom_k_99_MaxP.plan",
+                "kilt_input_format": "INT32,256,384:INT32,256,384:INT32,1,257:INT32,1,384",
+                "kilt_output_format": "HALF,2,256,384",
+                "loadgen_target_qps": 1
+            },
+            "trtexec":
+            {
+                "model_file_name": "",
+                "loadgen_target_qps": 1
+            }
+        },
+        "bert-99.9":
+        {
+            "nvidia":
+            {
+                "model_file_name": "bert-Server-gpu-fp16_S_384_B_256_P_1_vs.custom_k_99_9_MaxP.plan",
+                "kilt_input_format": "INT32,256,384:INT32,256,384:INT32,1,257:INT32,1,384",
+                "kilt_output_format": "HALF,2,256,384",
+                "loadgen_target_qps": 1
+            },
+            "trtexec":
+            {
+                "model_file_name": "bert_large_v1_1.plan",
+                "kilt_input_format": "INT32,256,384:INT32,256,384:INT32,256,384",
+                "kilt_output_format": "FLOAT32,256,384:FLOAT32,256,384",
+                "loadgen_target_qps": 1
+            }
+        },
+        "retinanet":
+        {
+            "nvidia":
+            {
+                "model_file_name": "retinanet-Server-gpu-b1-int8.lwis_k_99_MaxP.plan",
+                "kilt_input_format": "INT8,1,3,800,800",
+                "kilt_output_format": "FLOAT32,1,1,1,7001",
+                "loadgen_target_qps": 1
+            }
+        },
+
+        "AccuracyOnly":
+        {
+            "loadgen_count_override_min": 0,
+            "loadgen_count_override_max": 0
+        },
+        "PerformanceOnly":
+        {
+            "loadgen_count_override_min": 1200000,
+            "loadgen_count_override_max": 1200000
+        }
+    },
+
+    "bert-99":
+    {
+        "weight_data_types": "int8",
+        "url": "https://zenodo.org/record/3750364/files/bert_large_v1_1_fake_quant.onnx"
+    },
+    "bert-99.9":
+    {
+        "weight_data_types": "fp16",
+        "url": "https://zenodo.org/record/3733910/files/model.onnx"
+    },
+    "retinanet":
+    {
+        "weight_data_types": "fp16",
+        "url": "https://zenodo.org/record/6617879/files/resnext50_32x4d_fpn.onnx"
+    }
+}
